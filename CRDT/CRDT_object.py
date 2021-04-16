@@ -57,6 +57,10 @@ class GCounter(object):
         """b is a counter from another node"""
         self.counter = np.maximum(self.counter, b)
 
+class VectorClock(GCounter):
+    def query(self):
+        return self.counter[self.nodeId]
+
 class PNCounter(object):
     """Positive negative counter"""
     def __init__(self, n, nodeId):
@@ -104,7 +108,6 @@ class ListNode(object):
             self_pt = self_pt.next
             out_pt = out_pt.next
         return output.next
-
 
 class ItemList(object):
     """
@@ -190,7 +193,6 @@ class ItemList(object):
         self.items = merged.next
         itemlist_copy.items = merged.next.deepcopy()
         return merged.next
-
 
 class IntList(ItemList):
     """
