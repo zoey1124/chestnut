@@ -1,9 +1,12 @@
-import CRDT_object
+import CRDT.CRDT_sequence as CRDT_sequence
+import CRDT.CRDT_set
+import CRDT.CRDT_counter
+import CRDT.CRDT_register
 
 def test_GSet():
     print("===test Gset===")
-    node0 = CRDT_object.GSet()
-    node1 = CRDT_object.GSet()
+    node0 = CRDT_sequence.GSet()
+    node1 = CRDT_sequence.GSet()
     node0.add(2)
     node1.add(3)
     node1.add(2)
@@ -16,8 +19,8 @@ def test_GSet():
 
 def test_USet():
     print("===test USet===")
-    node0 = CRDT_object.USet()
-    node1 = CRDT_object.USet()
+    node0 = CRDT_sequence.USet()
+    node1 = CRDT_sequence.USet()
     node0.add(2)
     node0.add(3)
     node1.merge(node0)
@@ -30,8 +33,8 @@ def test_USet():
 
 def test_PNCounter():
     print("===test PNCounter===")
-    node0 = CRDT_object.PNCounter(2, 0)
-    node1 = CRDT_object.PNCounter(2, 1)
+    node0 = CRDT_sequence.PNCounter(2, 0)
+    node1 = CRDT_sequence.PNCounter(2, 1)
     node0.inc()
     node1.dec()
     node0.inc()
@@ -44,46 +47,46 @@ def test_PNCounter():
 
 def test_ItemList():
     print("===test ItemList add remove lookup===")
-    node0 = CRDT_object.ItemList()
-    node0.add(0, CRDT_object.ListNode("TV"))
+    node0 = CRDT_sequence.ItemList()
+    node0.add(0, CRDT_sequence.ListNode("TV"))
     assert node0.items.display() == "['TV']"
-    item = CRDT_object.ListNode("TV")
+    item = CRDT_sequence.ListNode("TV")
     assert node0.lookup(item) == 0
-    node0.add(1, CRDT_object.ListNode("Venice"))
+    node0.add(1, CRDT_sequence.ListNode("Venice"))
     assert node0.items.display() == "['TV', 'Venice']"
-    node0.add(2, CRDT_object.ListNode("Laptop"))
+    node0.add(2, CRDT_sequence.ListNode("Laptop"))
     assert node0.items.display() == "['TV', 'Venice', 'Laptop']"
     node0.remove(1)
     assert node0.items.display() == "['TV', 'Laptop']"
     node0.remove(0)
     assert node0.items.display() == "['Laptop']"
-    node0.add(1, CRDT_object.ListNode("Ski"))
+    node0.add(1, CRDT_sequence.ListNode("Ski"))
     assert node0.items.display() == "['Laptop', 'Ski']"
-    node0.add(1, CRDT_object.ListNode("Peace"))
+    node0.add(1, CRDT_sequence.ListNode("Peace"))
     assert node0.items.display() == "['Laptop', 'Peace', 'Ski']"
     print("Pass")
 
 def test_ItemList2():
     print("===test merge===")
-    node0 = CRDT_object.ItemList()
-    node0.add(0, CRDT_object.ListNode("TV"))
-    node0.add(1, CRDT_object.ListNode("Venice"))
-    node0.add(2, CRDT_object.ListNode("Laptop"))
+    node0 = CRDT_sequence.ItemList()
+    node0.add(0, CRDT_sequence.ListNode("TV"))
+    node0.add(1, CRDT_sequence.ListNode("Venice"))
+    node0.add(2, CRDT_sequence.ListNode("Laptop"))
 
-    node1 = CRDT_object.ItemList()
+    node1 = CRDT_sequence.ItemList()
     node1.merge(node0)
     assert node1.items.display() == "['TV', 'Venice', 'Laptop']"
 
-    node0.add(2, CRDT_object.ListNode("Book"))
+    node0.add(2, CRDT_sequence.ListNode("Book"))
     node0.remove(1)
-    node1.add(2, CRDT_object.ListNode("Ski"))
+    node1.add(2, CRDT_sequence.ListNode("Ski"))
     assert node0.items.display() == "['TV', 'Book', 'Laptop']"
     assert node1.items.display() == "['TV', 'Venice', 'Ski', 'Laptop']"
     node0.merge(node1)
     assert node0.items.display() == "['TV', 'Book', 'Ski', 'Laptop']"
 
-    node0.add(0, CRDT_object.ListNode("iPhone"))
-    node1.add(0, CRDT_object.ListNode("War"))
+    node0.add(0, CRDT_sequence.ListNode("iPhone"))
+    node1.add(0, CRDT_sequence.ListNode("War"))
     assert node0.items.display() == "['TV', 'iPhone', 'Book', 'Ski', 'Laptop']"
     assert node1.items.display() == "['TV', 'War', 'Book', 'Ski', 'Laptop']"
     node0.merge(node1)
