@@ -1,12 +1,12 @@
 import CRDT.CRDT_sequence as CRDT_sequence
-import CRDT.CRDT_set
-import CRDT.CRDT_counter
-import CRDT.CRDT_register
+import CRDT.CRDT_set as CRDT_set
+import CRDT.CRDT_counter as CRDT_counter
+import CRDT.CRDT_graph as CRDT_graph
 
 def test_GSet():
     print("===test Gset===")
-    node0 = CRDT_sequence.GSet()
-    node1 = CRDT_sequence.GSet()
+    node0 = CRDT_set.GSet()
+    node1 = CRDT_set.GSet()
     node0.add(2)
     node1.add(3)
     node1.add(2)
@@ -19,8 +19,8 @@ def test_GSet():
 
 def test_USet():
     print("===test USet===")
-    node0 = CRDT_sequence.USet()
-    node1 = CRDT_sequence.USet()
+    node0 = CRDT_set.USet()
+    node1 = CRDT_set.USet()
     node0.add(2)
     node0.add(3)
     node1.merge(node0)
@@ -33,8 +33,8 @@ def test_USet():
 
 def test_PNCounter():
     print("===test PNCounter===")
-    node0 = CRDT_sequence.PNCounter(2, 0)
-    node1 = CRDT_sequence.PNCounter(2, 1)
+    node0 = CRDT_counter.PNCounter(2, 0)
+    node1 = CRDT_counter.PNCounter(2, 1)
     node0.inc()
     node1.dec()
     node0.inc()
@@ -93,6 +93,7 @@ def test_ItemList2():
     assert node0.items.display() == "['TV', 'War', 'iPhone', 'Book', 'Ski', 'Laptop']"
     assert node1.items.display() == "['TV', 'War', 'iPhone', 'Book', 'Ski', 'Laptop']"
     print("Pass")
+
 
 
 if __name__ == "__main__":
