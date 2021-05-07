@@ -94,7 +94,17 @@ def test_ItemList2():
     assert node1.items.display() == "['TV', 'War', 'iPhone', 'Book', 'Ski', 'Laptop']"
     print("Pass")
 
+def test_PartialOrder():
+    print("===test MutablePartialOrder===")
+    node0 = CRDT_graph.AddRemovePartialOrder()
+    node1 = CRDT_graph.AddRemovePartialOrder()
+    node0.add_between("start", 'N', 'end')
+    node1.add_between('start', 'I', 'end')
+    node0.merge(node1)
+    node0.add_between('I', 'A', 'end')
+    assert node0.before('I', 'A')
 
+    print("Pass")
 
 if __name__ == "__main__":
     test_GSet()
@@ -102,3 +112,4 @@ if __name__ == "__main__":
     test_ItemList()
     test_ItemList2()
     test_USet()
+    test_PartialOrder()
